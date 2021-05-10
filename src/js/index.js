@@ -3,13 +3,14 @@ import galleryItems from "../gallery-items.js";
 const galleryRef = document.querySelector(".js-gallery");
 // console.log(galleryRef);
 
-(function createGallery() {
-  galleryRef.append(
-    ...galleryItems.map((item) =>
-      createGalleryItem(createImageLink(createImage(item)))
-    )
-  );
-})();
+// // First case
+// (function createGalleryMarkup() {
+//   galleryRef.append(
+//     ...galleryItems.map((item) =>
+//       createGalleryItem(createImageLink(createImage(item)))
+//     )
+//   );
+// })();
 
 function createImage(imageData) {
   const imgEl = document.createElement("img");
@@ -33,4 +34,28 @@ function createGalleryItem(imgLink) {
   galleryItem.classList.add("gallery__item");
   galleryItem.append(imgLink);
   return galleryItem;
+}
+
+// second case
+(function createGalleryMarkup() {
+  galleryRef.insertAdjacentHTML(
+    "afterbegin",
+    galleryItems.map((item) => createGalleryItemMurkup(item)).join("")
+  );
+})();
+
+function createGalleryItemMurkup({ preview, original, description }) {
+  return `<li class="gallery__item">
+  <a
+    class="gallery__link"
+    href=${original}
+  >
+    <img
+      class="gallery__image"
+      src=${preview}
+      data-source=${original}
+      alt=${description}
+    />
+  </a>
+</li>`;
 }

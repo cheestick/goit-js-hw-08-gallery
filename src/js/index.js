@@ -3,7 +3,7 @@ import galleryItems from "../gallery-items.js";
 const galleryRef = document.querySelector(".js-gallery");
 // console.log(galleryRef);
 
-// // First case
+// // First case CreateElement
 // (function createGalleryMarkup() {
 //   galleryRef.append(
 //     ...galleryItems.map((item) =>
@@ -12,50 +12,50 @@ const galleryRef = document.querySelector(".js-gallery");
 //   );
 // })();
 
-function createImage(imageData) {
-  const imgEl = document.createElement("img");
-  imgEl.classList.add("gallery__image");
-  imgEl.src = imageData.preview;
-  imgEl.alt = imageData.description;
-  imgEl.dataset.source = imageData.original;
-  return imgEl;
-}
+// function createImage(imageData) {
+//   const imgEl = document.createElement("img");
+//   imgEl.classList.add("gallery__image");
+//   imgEl.src = imageData.preview;
+//   imgEl.alt = imageData.description;
+//   imgEl.dataset.source = imageData.original;
+//   return imgEl;
+// }
 
-function createImageLink(imgEl) {
-  const imgLink = document.createElement("a");
-  imgLink.classList.add("gallery__link");
-  imgLink.href = imgEl.dataset.source;
-  imgLink.append(imgEl);
-  return imgLink;
-}
+// function createImageLink(imgEl) {
+//   const imgLink = document.createElement("a");
+//   imgLink.classList.add("gallery__link");
+//   imgLink.href = imgEl.dataset.source;
+//   imgLink.append(imgEl);
+//   return imgLink;
+// }
 
-function createGalleryItem(imgLink) {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery__item");
-  galleryItem.append(imgLink);
-  return galleryItem;
-}
+// function createGalleryItem(imgLink) {
+//   const galleryItem = document.createElement("li");
+//   galleryItem.classList.add("gallery__item");
+//   galleryItem.append(imgLink);
+//   return galleryItem;
+// }
 
-// second case
+// second case InsertAdjacentHTML
 (function createGalleryMarkup() {
   galleryRef.insertAdjacentHTML(
     "afterbegin",
-    galleryItems.map((item) => createGalleryItemMurkup(item)).join("")
+    galleryItems
+      .map(
+        ({ preview, original, description }) =>
+          `<li class="gallery__item">
+            <a
+                class="gallery__link"
+                href=${original}>
+                <img
+                class="gallery__image"
+                src=${preview}
+                data-source=${original}
+                alt=${description}
+                />
+            </a>
+            </li>`
+      )
+      .join("")
   );
 })();
-
-function createGalleryItemMurkup({ preview, original, description }) {
-  return `<li class="gallery__item">
-  <a
-    class="gallery__link"
-    href=${original}
-  >
-    <img
-      class="gallery__image"
-      src=${preview}
-      data-source=${original}
-      alt=${description}
-    />
-  </a>
-</li>`;
-}

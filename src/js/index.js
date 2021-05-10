@@ -3,6 +3,14 @@ import galleryItems from "../gallery-items.js";
 const galleryRef = document.querySelector(".js-gallery");
 // console.log(galleryRef);
 
+(function createGallery() {
+  galleryRef.append(
+    ...galleryItems.map((item) =>
+      createGalleryItem(createImageLink(createImage(item)))
+    )
+  );
+})();
+
 function createImage(imageData) {
   const imgEl = document.createElement("img");
   imgEl.classList.add("gallery__image");
@@ -26,11 +34,3 @@ function createGalleryItem(imgLink) {
   galleryItem.append(imgLink);
   return galleryItem;
 }
-
-(function crateGallery() {
-  galleryRef.append(
-    ...galleryItems.map((item) =>
-      createGalleryItem(createImageLink(createImage(item)))
-    )
-  );
-})();

@@ -3,6 +3,7 @@ import galleryItems from "../gallery-items.js";
 const galleryRef = document.querySelector(".js-gallery");
 // console.log(galleryRef);
 const lightBoxRef = document.querySelector(".js-lightbox");
+const overlayLightBoxRef = lightBoxRef.querySelector(".lightbox__overlay");
 const closeLightBoxRef = document.querySelector(
   '[data-action="close-lightbox"]'
 );
@@ -84,13 +85,13 @@ function imageClickHandler(e) {
   imageLightBoxRef.alt = alt;
 
   lightBoxRef.classList.add("is-open");
-  closeLightBoxRef.addEventListener("click", closeLightBoxHandler, {
-    once: true,
-  });
+  lightBoxRef.addEventListener("click", closeLightBoxHandler);
 }
 
-function closeLightBoxHandler(e) {
-  lightBoxRef.classList.remove(`is-open`);
-  imageLightBoxRef.src = "";
-  imageLightBoxRef.alt = "";
+function closeLightBoxHandler({ target: { className } }) {
+  if (className === "lightbox__overlay" || className === "lightbox__button") {
+    lightBoxRef.classList.remove(`is-open`);
+    imageLightBoxRef.src = "";
+    imageLightBoxRef.alt = "";
+  }
 }

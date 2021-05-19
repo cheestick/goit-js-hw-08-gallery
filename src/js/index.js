@@ -6,6 +6,8 @@ const lightBoxRef = document.querySelector(".js-lightbox");
 const closeLightBoxRef = document.querySelector(
   '[data-action="close-lightbox"]'
 );
+const imageLightBoxRef = lightBoxRef.querySelector(".lightbox__image");
+// console.log(imageLightBoxRef);
 
 //console.log(lightBoxRef);
 // console.log(closeLightBoxRef);
@@ -72,7 +74,15 @@ galleryRef.addEventListener(`click`, imageClickHandler);
 function imageClickHandler(e) {
   if (e.target.nodeName !== `IMG`) return;
   e.preventDefault();
+  const {
+    dataset: { source },
+    alt,
+  } = e.target;
+  // console.log(src, alt);
   // console.log(e.target);
+  imageLightBoxRef.src = source;
+  imageLightBoxRef.alt = alt;
+
   lightBoxRef.classList.add("is-open");
   closeLightBoxRef.addEventListener("click", closeLightBoxHandler, {
     once: true,
@@ -81,4 +91,6 @@ function imageClickHandler(e) {
 
 function closeLightBoxHandler(e) {
   lightBoxRef.classList.remove(`is-open`);
+  imageLightBoxRef.src = "";
+  imageLightBoxRef.alt = "";
 }

@@ -2,6 +2,13 @@ import galleryItems from "../gallery-items.js";
 // console.log(galleryItems);
 const galleryRef = document.querySelector(".js-gallery");
 // console.log(galleryRef);
+const lightBoxRef = document.querySelector(".js-lightbox");
+const closeLightBoxRef = document.querySelector(
+  '[data-action="close-lightbox"]'
+);
+
+//console.log(lightBoxRef);
+// console.log(closeLightBoxRef);
 
 // // First case CreateElement
 // (function createGalleryMarkup() {
@@ -51,7 +58,7 @@ const galleryRef = document.querySelector(".js-gallery");
                 class="gallery__image"
                 src=${preview}
                 data-source=${original}
-                alt=${description}
+                alt="${description}"
                 />
             </a>
             </li>`
@@ -59,3 +66,19 @@ const galleryRef = document.querySelector(".js-gallery");
       .join("")
   );
 })();
+
+galleryRef.addEventListener(`click`, imageClickHandler);
+
+function imageClickHandler(e) {
+  if (e.target.nodeName !== `IMG`) return;
+  e.preventDefault();
+  // console.log(e.target);
+  lightBoxRef.classList.add("is-open");
+  closeLightBoxRef.addEventListener("click", closeLightBoxHandler, {
+    once: true,
+  });
+}
+
+function closeLightBoxHandler(e) {
+  lightBoxRef.classList.remove(`is-open`);
+}

@@ -1,10 +1,6 @@
 import galleryItems from "../gallery-items.js";
 const galleryRef = document.querySelector(".js-gallery");
 const lightBoxRef = document.querySelector(".js-lightbox");
-// const overlayLightBoxRef = lightBoxRef.querySelector(".lightbox__overlay");
-// const closeLightBoxRef = document.querySelector(
-//   '[data-action="close-lightbox"]'
-// );
 const imageLightBoxRef = lightBoxRef.querySelector(".lightbox__image");
 let currentLargePicIndex = null;
 
@@ -22,7 +18,7 @@ let currentLargePicIndex = null;
                 class="gallery__image"
                 src=${preview}
                 data-source=${original}
-                data-previewindex='${index + 1}'
+                data-preview-index='${index + 1}'
                 alt="${description}"
                 />
             </a>
@@ -36,15 +32,18 @@ galleryRef.addEventListener(`click`, imageClickHandler);
 
 function imageClickHandler(e) {
   if (e.target.nodeName !== `IMG`) return;
+
   e.preventDefault();
+
   const {
-    dataset: { source, previewindex },
+    dataset: { source, previewIndex },
     alt,
   } = e.target;
 
-  setModalLargePicPreview(source, alt, previewindex);
+  setModalLargePicPreview(source, alt, previewIndex);
 
   lightBoxRef.classList.add("is-open");
+
   addModalControlsHandlers();
 }
 
@@ -80,23 +79,27 @@ function previewPicByArrowsHandler(e) {
 }
 
 function nextPic() {
-  const {
-    dataset: { source, previewindex },
-    alt,
-  } = galleryRef.querySelector(
-    `[data-previewindex='${Number(currentLargePicIndex) + 1}']`
+  const nextImgRef = galleryRef.querySelector(
+    `[data-preview-index='${Number(currentLargePicIndex) + 1}']`
   );
-  setModalLargePicPreview(source, alt, previewindex);
+  if (!nextImgRef) return;
+  const {
+    dataset: { source, previewIndex },
+    alt,
+  } = nextImgRef;
+  setModalLargePicPreview(source, alt, previewIndex);
 }
 
 function previousPic() {
-  const {
-    dataset: { source, previewindex },
-    alt,
-  } = galleryRef.querySelector(
-    `[data-previewindex='${Number(currentLargePicIndex) - 1}']`
+  const prevImgRef = galleryRef.querySelector(
+    `[data-preview-index='${Number(currentLargePicIndex) - 1}']`
   );
-  setModalLargePicPreview(source, alt, previewindex);
+  if (!prevImgRef) return;
+  const {
+    dataset: { source, previewIndex },
+    alt,
+  } = prevImgRef;
+  setModalLargePicPreview(source, alt, previewIndex);
 }
 
 function closeLargePicModal() {
@@ -109,13 +112,13 @@ function closeLargePicModal() {
 function setModalLargePicPreview(source, alt, index) {
   imageLightBoxRef.src = source;
   imageLightBoxRef.alt = alt;
-  imageLightBoxRef.dataset.currentindex = index;
+  imageLightBoxRef.dataset.currentIndex = index;
   currentLargePicIndex = index;
-  console.log(currentLargePicIndex);
 }
 function clearModalLargePicPreview() {
   imageLightBoxRef.src = "";
   imageLightBoxRef.alt = "";
+  imageLightBoxRef.dataset.currentIndex = "";
   currentLargePicIndex = null;
 }
 

@@ -24,7 +24,7 @@ let currentLargePicIndex = null;
             </a>
             </li>`
       )
-      .join("")
+      .join("\n")
   );
 })();
 
@@ -68,37 +68,25 @@ function previewPicByArrowsHandler(e) {
   if (!(e.code === "ArrowLeft" || e.code === "ArrowRight")) return;
   switch (e.code) {
     case "ArrowLeft":
-      previousPic();
+      nextPic(-1);
       break;
     case "ArrowRight":
-      nextPic();
+      nextPic(1);
       break;
     default:
       console.log("somethigh wrong with navigation by arrows!");
   }
 }
 
-function nextPic() {
+function nextPic(nextIndex = 1) {
   const nextImgRef = galleryRef.querySelector(
-    `[data-preview-index='${Number(currentLargePicIndex) + 1}']`
+    `[data-preview-index='${Number(currentLargePicIndex) + nextIndex}']`
   );
   if (!nextImgRef) return;
   const {
     dataset: { source, previewIndex },
     alt,
   } = nextImgRef;
-  setModalLargePicPreview(source, alt, previewIndex);
-}
-
-function previousPic() {
-  const prevImgRef = galleryRef.querySelector(
-    `[data-preview-index='${Number(currentLargePicIndex) - 1}']`
-  );
-  if (!prevImgRef) return;
-  const {
-    dataset: { source, previewIndex },
-    alt,
-  } = prevImgRef;
   setModalLargePicPreview(source, alt, previewIndex);
 }
 
